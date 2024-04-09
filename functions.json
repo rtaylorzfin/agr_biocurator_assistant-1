@@ -1,0 +1,32 @@
+[
+    {
+        "type": "function",
+        "function": {
+            "name": "identify_disease",
+            "description": "Identify a disease and the relationship between the disease and other entities.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "disease": {
+                        "type": "string",
+                        "description": "The name of the disease."
+                    },
+                    "model_genetic_component": {
+                        "type": "string",
+                        "description": "The genetic component of the disease, such as a gene."
+                    },
+                    "component_type": {
+                        "type": "string",
+                        "enum": ["gene", "protein", "allele", "transgene"],
+                        "description": "The type of genetic component identified."
+                    },
+                    "modifier": {
+                        "type": "string",
+                        "description": "Any chemical components that modify the disease or genetic component."
+                    }
+                },
+                "required": ["disease", "model_genetic_component", "component_type", "modifier"]
+            }
+        }
+    }
+]
