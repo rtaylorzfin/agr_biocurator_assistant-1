@@ -2,6 +2,20 @@ import os
 import argparse
 from openai import OpenAI
 
+# Configurable variable for maximum retries
+MAX_RETRIES = 6
+
+def retry_deletion(delete_function, check_function, client, item_name, max_retries=MAX_RETRIES):
+    retries = 0
+    while retries < max_retries:
+        delete_function(client)
+        if check_function(client):
+            print(f"All {item_name} deleted successfully.")
+            return
+        retries += 1
+        print(f"Retrying to delete {item_name}. Attempt {retries} of {max_retries}.")
+    print(f"Failed to delete {item_name} after {max_retries} attempts.")
+
 def delete_assistants(client):
     response = client.beta.assistants.list()
     for assistant in response.data:
@@ -12,6 +26,10 @@ def delete_assistants(client):
             except Exception as e:
                 print(f"Failed to delete assistant {assistant.id}: {e}")
 
+def check_assistants_deleted(client):
+    response = client.beta.assistants.list()
+    return all('Biocurator' not in assistant.name for assistant in response.data)
+
 def delete_files(client):
     response = client.files.list()
     for file in response.data:
@@ -21,10 +39,13 @@ def delete_files(client):
         except Exception as e:
             print(f"Failed to delete file {file.id}: {e}")
 
+def check_files_deleted(client):
+    response = client.files.list()
+    return len(response.data) == 0
+
 def delete_vector_stores(client):
     limit = 100
     after = None
-    error_vector_stores = []
 
     while True:
         if after:
@@ -41,26 +62,14 @@ def delete_vector_stores(client):
                 client.beta.vector_stores.delete(vector_store_id=vs.id)
             except Exception as e:
                 print(f"Failed to delete vector store {vs.id}: {e}")
-                error_vector_stores.append(vs.id)
 
         if not response.has_more:
             break
         after = response.data[-1].id
-    
-    return error_vector_stores
 
-def retry_delete_vector_stores(client, max_retries=6):
-    retries = 0
-    while retries < max_retries:
-        error_vector_stores = delete_vector_stores(client)
-        if not error_vector_stores:
-            print("All vector stores deleted successfully.")
-            return
-        print(f"Retrying to delete vector stores. Attempt {retries + 1} of {max_retries}.")
-        retries += 1
-        if retries >= max_retries:
-            print(f"Failed to delete the following vector stores after {max_retries} attempts: {error_vector_stores}")
-            break
+def check_vector_stores_deleted(client):
+    response = client.beta.vector_stores.list(limit=1)
+    return len(response.data) == 0
 
 def main():
     parser = argparse.ArgumentParser(description='Cleanup OpenAI objects')
@@ -70,9 +79,9 @@ def main():
     client = OpenAI(api_key=args.api_key)
 
     try:
-        delete_assistants(client)
-        delete_files(client)
-        retry_delete_vector_stores(client)
+        retry_deletion(delete_assistants, check_assistants_deleted, client, "Biocurator assistants")
+        retry_deletion(delete_files, check_files_deleted, client, "files")
+        retry_deletion(delete_vector_stores, check_vector_stores_deleted, client, "vector stores")
     except Exception as e:
         print(f"An error occurred during cleanup: {e}")
 

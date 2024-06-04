@@ -51,16 +51,51 @@
 # previously published. If there are new transgenic constructs as described previously in this prompt, 
 # please use true when filling out the triage_result. If not, please use false when filling out the triage_result."
 
-disease: "Please review the publication for descriptions or uses of Drosophila 
-as models of human disease. Identify any experimental data that show
-mutation of Drosophila genes, introduction of human genes into flies, 
-chemical exposure, infection, or environmental changes leading to 
-disease phenotypes. The publication should use Drosophila in an active manner
-that models a human disease and not just mention diseases without experimental
-evidence to create a drosophila model. Again, we aren't interested if disease is
-simply mentioned in the introduction or discussion, it needs to be integral in some way
-to the experiments described in the paper. DO NOT ASSUME that if something CAN be used to model a 
-disease it should count as a positive result. The authors needs to explicitly mention the process
-of modelling a human disease and show related experiments. If there are Drosophila as models of human 
-disease as described previously in this prompt, please use true when filling out the triage_result. 
-If not, please use false when filling out the triage_result."
+# disease: "Please review the publication for descriptions or uses of Drosophila 
+# as models of human disease. Identify any experimental data that show
+# mutation of Drosophila genes, introduction of human genes into flies, 
+# chemical exposure, infection, or environmental changes leading to 
+# disease phenotypes. The publication should use Drosophila in an active manner
+# that models a human disease and not just mention diseases without experimental
+# evidence to create a drosophila model. Again, we aren't interested if disease is
+# simply mentioned in the introduction or discussion, it needs to be integral in some way
+# to the experiments described in the paper. DO NOT ASSUME that if something CAN be used to model a 
+# disease it should count as a positive result. The authors needs to explicitly mention the process
+# of modelling a human disease and show related experiments. If there are Drosophila as models of human 
+# disease as described previously in this prompt, please use true when filling out the triage_result. 
+# If not, please use false when filling out the triage_result."
+
+disease: "Please review the publication for descriptions or uses of Drosophila as models \
+of human disease. Identify any experimental data that show mutation of Drosophila genes, \
+introduction of human genes into flies, chemical exposure, infection, or environmental \
+changes leading to disease phenotypes. The publication should use Drosophila in an active \
+and experimental manner to model a specific human disease, not just mention diseases without \
+experimental evidence.
+
+Key criteria to consider:
+
+1. Explicit Human Disease Modeling:
+   - The publication must clearly demonstrate that the experiments are designed to model \
+     specific human diseases. Look for explicit statements and experimental setups that \
+     link the Drosophila model directly to human disease processes.
+
+2. Experimental Evidence:
+   - The experiments should provide detailed evidence of Drosophila being used to mimic \
+     human disease conditions. This includes genetic manipulations, environmental exposures, \
+     and observed disease-related phenotypes in flies.
+
+3. Relevance to Human Disease:
+   - The experiments must be integral to the study and should not merely mention diseases \
+     in the introduction or discussion. The active modeling of human disease should be a \
+     central focus of the experiments described.
+
+4. Supporting Reasoning:
+   - Ensure the reasoning provided clearly supports the classification. The reasoning should \
+     detail how the experiments meet the criteria for using Drosophila as a model for human \
+     disease.
+
+DO NOT ASSUME that if something CAN be used to model a disease, it should count as a positive \
+result. The authors need to explicitly mention the process of modeling a human disease and show \
+related experiments. If there are Drosophila as models of human disease as described previously in \
+this prompt, please use true when filling out the triage_result. If not, please use false when \
+filling out the triage_result."
