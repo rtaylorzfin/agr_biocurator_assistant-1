@@ -97,7 +97,7 @@ def upload_and_attach_file(client, file_path, vector_store_id):
 
     # Attaching the uploaded file to the vector store.
     print("Attaching file to vector store...", flush=True)
-    vector_store_file = client.beta.vector_stores.files.create(
+    vector_store_file = client.beta.vector_stores.files.create_and_poll(
         vector_store_id=vector_store_id,
         file_id=file_id
     )
